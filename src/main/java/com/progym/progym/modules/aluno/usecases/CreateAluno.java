@@ -23,7 +23,15 @@ public class CreateAluno {
 
     public AlunoEntity execute(AlunoRequestDTO dto){
 
-        this.alunoRepository.findByUsernameOrEmailOrCpf(dto.getUsername(), dto.getEmail(), dto.getCpf()).
+//         var existingAluno = this.alunoRepository.findByUsernameOrEmailOrCpfAndAtivoTrue(dto.getUsername(), dto.getEmail(), dto.getCpf());
+// System.out.println("DEBUG CreateAluno: Resultado da busca por usuário ativo: " + existingAluno.isPresent());
+
+// if (existingAluno.isPresent()) {
+//     System.out.println("DEBUG CreateAluno: Usuário encontrado: " + existingAluno.get().getUsername() + ", Ativo: " + existingAluno.get().getAtivo());
+//     throw new UserFoundException();
+// }
+
+        this.alunoRepository.findByUsernameOrEmailOrCpfAndAtivoTrue(dto.getUsername(), dto.getEmail(), dto.getCpf()).
         ifPresent((user) -> {
             throw new UserFoundException();
         });

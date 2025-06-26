@@ -23,7 +23,7 @@ public class UpdateAlunoUseCase {
             throw new RuntimeException("Acesso negado. Você não tem permissão para atualizar este perfil.");
         }
 
-        var alunoOptional = alunoRepository.findById(idToUpdate);
+        var alunoOptional = alunoRepository.findById(idToUpdate); //ele pega o aluno pelo id que está sendo atualizado. O findById vai encontrar o aluno no banco de dados com o mesmo id que foi passado no parâmetro.
 
         if (alunoOptional.isEmpty()) {
             throw new RuntimeException("Aluno não encontrado.");
@@ -35,18 +35,18 @@ public class UpdateAlunoUseCase {
             alunoUpdate.setNome(dto.getNome());
         }
         
-        if (dto.getUsername() != null && !dto.getUsername().equals(alunoUpdate.getUsername())) {
+        if (dto.getUsername() != null && !dto.getUsername().equals(alunoUpdate.getUsername())) { // verifica se o username foi atualizado e se é diferente do atual, se esse username já existe no banco de dados, lança uma exceção.
             
-            alunoRepository.findByUsernameAndIdNot(dto.getUsername(), idToUpdate)
+            alunoRepository.findByUsernameAndIdNotAndAtivoTrue(dto.getUsername(), idToUpdate)
                 .ifPresent(alunoExistente -> {
                     throw new UserFoundException();
                 });
             alunoUpdate.setUsername(dto.getUsername());
         }
 
-        if (dto.getEmail() != null && !dto.getEmail().equals(alunoUpdate.getEmail())) {
+        if (dto.getEmail() != null && !dto.getEmail().equals(alunoUpdate.getEmail())) { // o mesmo acontece para o e-mail
             
-            alunoRepository.findByEmailAndIdNot(dto.getEmail(), idToUpdate)
+            alunoRepository.findByEmailAndIdNotAndAtivoTrue(dto.getEmail(), idToUpdate)
                 .ifPresent(alunoExistente -> {
                     throw new UserFoundException();
                 });

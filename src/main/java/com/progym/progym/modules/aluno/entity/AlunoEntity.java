@@ -58,11 +58,15 @@ public class AlunoEntity implements UserDetails{
 
     private Integer idade;
 
+    private Boolean ativo = true;
+
     @Enumerated(EnumType.STRING)
     private UsuarioRole role;
 
     @CreationTimestamp
     private LocalDateTime dataCadastro;
+
+    private LocalDateTime dataExclusao;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

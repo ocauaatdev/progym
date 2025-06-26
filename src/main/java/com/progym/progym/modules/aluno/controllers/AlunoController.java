@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,11 +22,13 @@ import com.progym.progym.modules.aluno.dto.AuthAlunoRequestDTO;
 import com.progym.progym.modules.aluno.entity.AlunoEntity;
 import com.progym.progym.modules.aluno.usecases.AuthAlunoUseCase;
 import com.progym.progym.modules.aluno.usecases.CreateAluno;
+import com.progym.progym.modules.aluno.usecases.DeleteAlunoUseCase;
 import com.progym.progym.modules.aluno.usecases.PerfilAlunoUseCase;
 import com.progym.progym.modules.aluno.usecases.UpdateAlunoUseCase;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.var;
 
 @RestController
 @RequestMapping("/aluno")
@@ -42,6 +45,9 @@ public class AlunoController {
 
     @Autowired
     private UpdateAlunoUseCase updateAlunoUseCase;
+
+    @Autowired
+    private DeleteAlunoUseCase deleteAlunoUseCase;
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Object> cadastrarAluno(@Valid @RequestBody AlunoRequestDTO alunoRequestDTO){
@@ -92,5 +98,20 @@ public class AlunoController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ALUNO')")
+    public ResponseEntity<String> delete(@PathVariable UUID id, @AuthenticationPrincipal AlunoEntity alunoAutenticado){
+        try {
+            UUID idAlunoAutenticado = alunoAutenticado.getId();
+            this.deleteAlunoUseCase.delete(id, idAlunoAutenticado);
+            return ResponseEntity.ok().build();
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }

@@ -33,7 +33,7 @@ public class AuthAlunoUseCase {
 
     public AuthAlunoResponseDTO execute(AuthAlunoRequestDTO authAlunoRequestDTO) throws AuthenticationException{
 
-        var aluno = this.alunoRepository.findByUsername(authAlunoRequestDTO.username())
+        var aluno = this.alunoRepository.findByUsernameAndAtivoTrue(authAlunoRequestDTO.username())
         .orElseThrow(() -> {
             throw new UsernameNotFoundException("Username/Password incorretos");
         });

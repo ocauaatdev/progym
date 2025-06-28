@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.progym.progym.exceptions.IncorrectDoubleException;
+import com.progym.progym.exceptions.SameInfoException;
 import com.progym.progym.exceptions.UserFoundException;
 import com.progym.progym.modules.aluno.dto.AlunoUpdateRequestDTO;
 import com.progym.progym.modules.aluno.entity.AlunoEntity;
@@ -34,23 +35,31 @@ public class UpdateAlunoUseCase {
         if (dto.getNome() != null) {
             alunoUpdate.setNome(dto.getNome());
         }
-        
-        if (dto.getUsername() != null && !dto.getUsername().equals(alunoUpdate.getUsername())) { // verifica se o username foi atualizado e se é diferente do atual, se esse username já existe no banco de dados, lança uma exceção.
-            
-            alunoRepository.findByUsernameAndIdNotAndAtivoTrue(dto.getUsername(), idToUpdate)
-                .ifPresent(alunoExistente -> {
-                    throw new UserFoundException();
-                });
+
+        if (dto.getUsername() != null) {
+            var usernameExistente = alunoRepository.findByUsernameAndAtivoTrue(dto.getUsername());
+
+            if (dto.getUsername().equals(alunoUpdate.getUsername())) {
+                throw new SameInfoException();
+            }
+
+            if (usernameExistente.isPresent()) {
+                throw new UserFoundException();
+            }
             alunoUpdate.setUsername(dto.getUsername());
         }
 
-        if (dto.getEmail() != null && !dto.getEmail().equals(alunoUpdate.getEmail())) { // o mesmo acontece para o e-mail
-            
-            alunoRepository.findByEmailAndIdNotAndAtivoTrue(dto.getEmail(), idToUpdate)
-                .ifPresent(alunoExistente -> {
-                    throw new UserFoundException();
-                });
-            alunoUpdate.setEmail(dto.getEmail());
+        if (dto.getEmail() != null) {
+            var emailExistente = alunoRepository.findByEmailAndAtivoTrue(dto.getEmail());
+
+            if (dto.getEmail().equals(alunoUpdate.getEmail())) {
+                throw new SameInfoException();
+            }
+
+            if (emailExistente.isPresent()) {
+                throw new UserFoundException();
+            }
+            alunoUpdate.setEmail(dto.getEmail().toLowerCase());
         }
 
         try {

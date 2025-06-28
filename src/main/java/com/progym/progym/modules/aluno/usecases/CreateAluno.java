@@ -23,14 +23,6 @@ public class CreateAluno {
 
     public AlunoEntity execute(AlunoRequestDTO dto){
 
-//         var existingAluno = this.alunoRepository.findByUsernameOrEmailOrCpfAndAtivoTrue(dto.getUsername(), dto.getEmail(), dto.getCpf());
-// System.out.println("DEBUG CreateAluno: Resultado da busca por usuário ativo: " + existingAluno.isPresent());
-
-// if (existingAluno.isPresent()) {
-//     System.out.println("DEBUG CreateAluno: Usuário encontrado: " + existingAluno.get().getUsername() + ", Ativo: " + existingAluno.get().getAtivo());
-//     throw new UserFoundException();
-// }
-
         this.alunoRepository.findByUsernameOrEmailOrCpfAndAtivoTrue(dto.getUsername(), dto.getEmail(), dto.getCpf()).
         ifPresent((user) -> {
             throw new UserFoundException();
@@ -41,7 +33,7 @@ public class CreateAluno {
         alunoEntity.setNome(dto.getNome());
         alunoEntity.setUsername(dto.getUsername());
         alunoEntity.setCpf(dto.getCpf());
-        alunoEntity.setEmail(dto.getEmail());
+        alunoEntity.setEmail(dto.getEmail().toLowerCase());
         alunoEntity.setSenha(passwordEncoder.encode(dto.getSenha()));
 
         try {

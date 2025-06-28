@@ -17,6 +17,7 @@ public interface AlunoRepository extends JpaRepository<AlunoEntity, UUID> {
     Optional<AlunoEntity> findByUsernameOrEmailOrCpfAndAtivoTrue(String username, String email, String cpf);
     
     Optional<AlunoEntity> findByUsernameAndAtivoTrue(String username);
+    Optional<AlunoEntity> findByEmailAndAtivoTrue(String email);
 
     Optional<AlunoEntity> findByUsernameAndIdNotAndAtivoTrue(String username, UUID id);
     Optional<AlunoEntity> findByEmailAndIdNotAndAtivoTrue(String email, UUID id);

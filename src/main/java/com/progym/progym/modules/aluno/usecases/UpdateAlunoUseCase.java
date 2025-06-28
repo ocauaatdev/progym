@@ -37,12 +37,11 @@ public class UpdateAlunoUseCase {
         }
 
         if (dto.getUsername() != null) {
-            var usernameExistente = alunoRepository.findByUsernameAndAtivoTrue(dto.getUsername());
-
             if (dto.getUsername().equals(alunoUpdate.getUsername())) {
                 throw new SameInfoException();
             }
 
+            var usernameExistente = alunoRepository.findByUsernameAndAtivoTrue(dto.getUsername());
             if (usernameExistente.isPresent()) {
                 throw new UserFoundException();
             }
@@ -50,15 +49,16 @@ public class UpdateAlunoUseCase {
         }
 
         if (dto.getEmail() != null) {
-            var emailExistente = alunoRepository.findByEmailAndAtivoTrue(dto.getEmail());
 
             if (dto.getEmail().equals(alunoUpdate.getEmail())) {
                 throw new SameInfoException();
             }
 
+            var emailExistente = alunoRepository.findByEmailAndAtivoTrue(dto.getEmail());
             if (emailExistente.isPresent()) {
                 throw new UserFoundException();
             }
+
             alunoUpdate.setEmail(dto.getEmail().toLowerCase());
         }
 

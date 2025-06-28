@@ -34,7 +34,7 @@ public class AuthProfessorUseCase {
 
     public AuthProfessorResponseDTO execute(AuthProfessorRequestDTO requestDTO) throws AuthenticationException{
 
-        var professor = this.professorRepository.findByUsername(requestDTO.username())
+        var professor = this.professorRepository.findByUsernameAndAtivoTrue(requestDTO.username())
         .orElseThrow(() -> {
             throw new UsernameNotFoundException("Username/Password incorretos");
         });

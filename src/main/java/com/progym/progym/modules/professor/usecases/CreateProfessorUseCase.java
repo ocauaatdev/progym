@@ -21,7 +21,7 @@ public class CreateProfessorUseCase {
 
     public ProfessorEntity execute(CreateProfessorRequestDTO dto){
 
-        this.professorRepository.findByUsernameOrEmailOrCpf(dto.getUsername(), dto.getEmail(), dto.getCpf())
+        this.professorRepository.findByUsernameOrEmailOrCpfAndAtivoTrue(dto.getUsername(), dto.getEmail(), dto.getCpf())
         .ifPresent(user -> {
             throw new UserFoundException();
         });
@@ -30,7 +30,7 @@ public class CreateProfessorUseCase {
         professorEntity.setUsername(dto.getUsername());
         professorEntity.setNome(dto.getNome());
         professorEntity.setCpf(dto.getCpf());
-        professorEntity.setEmail(dto.getEmail());
+        professorEntity.setEmail(dto.getEmail().toLowerCase());
         professorEntity.setSenha(passwordEncoder.encode(dto.getSenha()));
         professorEntity.setRole(UsuarioRole.PROFESSOR);
 

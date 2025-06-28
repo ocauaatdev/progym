@@ -1,9 +1,11 @@
 package com.progym.progym.modules.professor.entity;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,6 +54,15 @@ public class ProfessorEntity implements UserDetails{
 
     @Enumerated(EnumType.STRING)
     private UsuarioRole role;
+
+    @CreationTimestamp
+    private LocalDateTime dataCadastro;
+
+    private LocalDateTime dataExclusao;
+
+    private Boolean ativo = true;
+
+    private Double reputacao;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

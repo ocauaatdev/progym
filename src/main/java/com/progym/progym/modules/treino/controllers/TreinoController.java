@@ -17,7 +17,9 @@ import com.progym.progym.modules.aluno.entity.AlunoEntity;
 import com.progym.progym.modules.professor.entity.ProfessorEntity;
 import com.progym.progym.modules.treino.dto.CreateExercicioDTO;
 import com.progym.progym.modules.treino.dto.CreateTreinoDTO;
+import com.progym.progym.modules.treino.dto.CreateTreinoExerciciosDTO;
 import com.progym.progym.modules.treino.usecases.CreateExercicioUseCase;
+import com.progym.progym.modules.treino.usecases.CreateTreinoExerciciosUseCase;
 import com.progym.progym.modules.treino.usecases.CreateTreinoUseCase;
 
 import jakarta.validation.Valid;
@@ -31,6 +33,9 @@ public class TreinoController {
 
     @Autowired
     private CreateExercicioUseCase createExercicioUseCase;
+
+    @Autowired
+    private CreateTreinoExerciciosUseCase createTreinoExerciciosUseCase;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ALUNO','PROFESSOR')")
@@ -62,6 +67,17 @@ public class TreinoController {
     public ResponseEntity<Object> createExercicio(@RequestBody @Valid CreateExercicioDTO dto){
         try {
             var result = this.createExercicioUseCase.execute(dto);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/adicionarExercicio")
+    @PreAuthorize("hasAnyRole('ALUNO','PROFESSOR')")
+    public ResponseEntity<Object> adicionarExercicio(@RequestBody @Valid CreateTreinoExerciciosDTO dto){
+        try {
+            var result = this.createTreinoExerciciosUseCase.execute(dto);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

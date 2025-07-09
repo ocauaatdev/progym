@@ -23,11 +23,11 @@ public class TreinoExercicios {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "treino_id", referencedColumnName = "id")
+    @JoinColumn(name = "treino_id", referencedColumnName = "id", nullable = false)
     private TreinoEntity treino;
 
     @ManyToOne
-    @JoinColumn(name = "exercicio_id", referencedColumnName = "id")
+    @JoinColumn(name = "exercicio_id", referencedColumnName = "id", nullable = false)
     private Exercicio exercicio;
 
     private Double carga;

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.progym.progym.UsuarioRole;
 import com.progym.progym.modules.aluno.entity.AlunoEntity;
 import com.progym.progym.modules.professor.entity.ProfessorEntity;
+import com.progym.progym.modules.treino.dto.CreateExercicioDTO;
 import com.progym.progym.modules.treino.dto.CreateTreinoDTO;
+import com.progym.progym.modules.treino.usecases.CreateExercicioUseCase;
 import com.progym.progym.modules.treino.usecases.CreateTreinoUseCase;
 
 import jakarta.validation.Valid;
@@ -26,6 +28,9 @@ public class TreinoController {
     
     @Autowired
     private CreateTreinoUseCase createTreinoUseCase;
+
+    @Autowired
+    private CreateExercicioUseCase createExercicioUseCase;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ALUNO','PROFESSOR')")
@@ -47,6 +52,16 @@ public class TreinoController {
 
         try {
             var result = this.createTreinoUseCase.execute(dto, idUsuarioAutenticado, roleUsuarioAutenticado);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/createExercicio")
+    public ResponseEntity<Object> createExercicio(@RequestBody @Valid CreateExercicioDTO dto){
+        try {
+            var result = this.createExercicioUseCase.execute(dto);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

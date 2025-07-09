@@ -31,7 +31,8 @@ public class SecurityConfig {
                 auth.requestMatchers("/aluno/cadastrar").permitAll()
                 .requestMatchers("/aluno/auth").permitAll()
                 .requestMatchers("/professor/cadastrar").permitAll()
-                .requestMatchers("/professor/auth").permitAll();
+                .requestMatchers("/professor/auth").permitAll()
+                .requestMatchers("/treinos/createExercicio").permitAll();
                
                 auth.anyRequest().authenticated();
             })

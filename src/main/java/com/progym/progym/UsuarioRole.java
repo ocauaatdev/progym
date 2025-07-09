@@ -1,7 +1,7 @@
 package com.progym.progym;
 
 public enum UsuarioRole {
-    ADMIN,
+    // ADMIN,
     ALUNO,
     PROFESSOR;
 

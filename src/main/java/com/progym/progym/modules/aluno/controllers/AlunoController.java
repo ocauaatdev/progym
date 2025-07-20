@@ -1,5 +1,6 @@
 package com.progym.progym.modules.aluno.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,14 @@ import com.progym.progym.modules.aluno.usecases.CreateAluno;
 import com.progym.progym.modules.aluno.usecases.DeleteAlunoUseCase;
 import com.progym.progym.modules.aluno.usecases.PerfilAlunoUseCase;
 import com.progym.progym.modules.aluno.usecases.UpdateAlunoUseCase;
+import com.progym.progym.modules.treino.dto.TreinoResumoDTO;
+import com.progym.progym.modules.treino.usecases.ListarTreinoAlunoUseCase;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.var;
+
+
 
 @RestController
 @RequestMapping("/aluno")
@@ -48,6 +53,9 @@ public class AlunoController {
 
     @Autowired
     private DeleteAlunoUseCase deleteAlunoUseCase;
+
+    @Autowired
+    private ListarTreinoAlunoUseCase listarTreinoAlunoUseCase;
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Object> cadastrarAluno(@Valid @RequestBody AlunoRequestDTO alunoRequestDTO){
@@ -114,4 +122,18 @@ public class AlunoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @GetMapping("/treinos")
+    @PreAuthorize("hasRole('ALUNO')")
+    public ResponseEntity<List<TreinoResumoDTO>> listarMeusTreinos(@AuthenticationPrincipal AlunoEntity alunoAutenticado){
+        try {
+            UUID alunoId = alunoAutenticado.getId();
+
+            List<TreinoResumoDTO> treinos = this.listarTreinoAlunoUseCase.execute(alunoId);
+            return ResponseEntity.ok().body(treinos);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+    
 }

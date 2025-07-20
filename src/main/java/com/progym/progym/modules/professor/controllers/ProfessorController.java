@@ -1,5 +1,6 @@
 package com.progym.progym.modules.professor.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ import com.progym.progym.modules.professor.usecases.CreateProfessorUseCase;
 import com.progym.progym.modules.professor.usecases.DeleteProfessorUseCase;
 import com.progym.progym.modules.professor.usecases.PerfilProfessorUseCase;
 import com.progym.progym.modules.professor.usecases.UpdateProfessorUseCase;
+import com.progym.progym.modules.treino.dto.TreinoProfessorResumoDTO;
+import com.progym.progym.modules.treino.usecases.ListarTreinoProfessorUseCase;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -47,6 +50,9 @@ public class ProfessorController {
 
     @Autowired
     private DeleteProfessorUseCase deleteProfessorUseCase;
+
+    @Autowired
+    private ListarTreinoProfessorUseCase listarTreinoProfessorUseCase;
     
     @PostMapping("/cadastrar")
     public ResponseEntity<Object> cadastrarProfessor(@Valid @RequestBody CreateProfessorRequestDTO requestDTO){
@@ -109,6 +115,19 @@ public class ProfessorController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/treinos")
+    @PreAuthorize("hasRole('PROFESSOR')")
+    public ResponseEntity<List<TreinoProfessorResumoDTO>> listarTreinosProfessor(@AuthenticationPrincipal ProfessorEntity professorAutenticado){
+        try {
+            UUID professorId = professorAutenticado.getId();
+
+            List<TreinoProfessorResumoDTO> treinos = this.listarTreinoProfessorUseCase.execute(professorId);
+            return ResponseEntity.ok().body(treinos);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

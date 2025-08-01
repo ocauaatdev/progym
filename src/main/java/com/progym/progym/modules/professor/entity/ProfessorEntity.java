@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.progym.progym.Especialidades;
 import com.progym.progym.UsuarioRole;
 
 import jakarta.persistence.Entity;
@@ -62,7 +63,14 @@ public class ProfessorEntity implements UserDetails{
 
     private Boolean ativo = true;
 
-    private Double reputacao;
+    private String cref;
+
+    private String biografia;
+
+    @Enumerated(EnumType.STRING)
+    private Especialidades especialidade;
+
+    private Integer experiencia;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

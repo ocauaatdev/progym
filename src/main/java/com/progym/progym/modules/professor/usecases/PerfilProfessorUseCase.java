@@ -28,8 +28,11 @@ public class PerfilProfessorUseCase {
             .nome(professor.getNome())
             .cpf(professor.getCpf())
             .email(professor.getEmail())
-            .reputacao(professor.getReputacao())
             .role(professor.getRole())
+            .cref(professor.getCref())
+            .biografia(professor.getBiografia())
+            .especialidade(professor.getEspecialidade())
+            .experiencia(professor.getExperiencia())
             .build();
 
             return professorDTO;

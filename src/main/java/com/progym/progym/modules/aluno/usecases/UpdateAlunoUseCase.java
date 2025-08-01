@@ -82,6 +82,14 @@ public class UpdateAlunoUseCase {
             alunoUpdate.setIdade(dto.getIdade());
         }
 
+        if (dto.getObservacoes() != null) {
+            alunoUpdate.setObservacoes(dto.getObservacoes());  
+        }
+
+        if (dto.getObjetivo() != null) {
+            alunoUpdate.setObjetivo(dto.getObjetivo());
+        }
+
         return alunoRepository.save(alunoUpdate);
 
     }

@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.progym.progym.Objetivos;
 import com.progym.progym.UsuarioRole;
 
 import jakarta.persistence.Entity;
@@ -67,6 +68,11 @@ public class AlunoEntity implements UserDetails{
     private LocalDateTime dataCadastro;
 
     private LocalDateTime dataExclusao;
+
+    @Enumerated(EnumType.STRING)
+    private Objetivos objetivo;
+
+    private String observacoes;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

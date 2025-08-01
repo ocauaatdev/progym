@@ -31,6 +31,10 @@ public class CreateProfessorUseCase {
         professorEntity.setNome(dto.getNome());
         professorEntity.setCpf(dto.getCpf());
         professorEntity.setEmail(dto.getEmail().toLowerCase());
+        professorEntity.setBiografia(dto.getBiografia());
+        professorEntity.setEspecialidade(dto.getEspecialidade());
+        professorEntity.setCref(dto.getCref());
+        professorEntity.setExperiencia(dto.getExperiencia());
         professorEntity.setSenha(passwordEncoder.encode(dto.getSenha()));
         professorEntity.setRole(UsuarioRole.PROFESSOR);
 

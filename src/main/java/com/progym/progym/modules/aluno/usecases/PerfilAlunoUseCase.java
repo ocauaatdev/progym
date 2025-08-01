@@ -31,6 +31,9 @@ public class PerfilAlunoUseCase {
         .altura(aluno.getAltura())
         .peso(aluno.getPeso())
         .idade(aluno.getIdade())
+        .observacoes(aluno.getObservacoes())
+        .objetivo(aluno.getObjetivo())
+        .dataCadastro(aluno.getDataCadastro())
         .role(aluno.getRole())
         .build();
 

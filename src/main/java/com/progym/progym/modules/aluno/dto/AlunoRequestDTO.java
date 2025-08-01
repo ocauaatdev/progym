@@ -2,6 +2,10 @@ package com.progym.progym.modules.aluno.dto;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.progym.progym.Objetivos;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -27,7 +31,10 @@ public class AlunoRequestDTO {
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "A senha deve conter pelo menos uma letra maiúscula, um número e um caractere especial")
     private String senha;
 
+    @Enumerated(EnumType.STRING)
+    private Objetivos objetivo;
 
+    private String observacoes;
     private String altura;
     private String peso;
     private Integer idade;

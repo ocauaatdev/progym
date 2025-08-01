@@ -59,6 +59,22 @@ public class UpdateProfessorUseCase {
             professorUpdate.setEmail(dto.getEmail().toLowerCase());
         }
 
+        if (dto.getCref() != null) { 
+            professorUpdate.setCref(dto.getCref());
+        }
+
+        if (dto.getBiografia() != null) {
+            professorUpdate.setBiografia(dto.getBiografia());
+        }
+
+        if (dto.getEspecialidade() != null) {
+            professorUpdate.setEspecialidade(dto.getEspecialidade());
+        }
+
+        if (dto.getExperiencia() != null) {
+            professorUpdate.setExperiencia(dto.getExperiencia());    
+        }
+
         return professorRepository.save(professorUpdate);
     }
 }

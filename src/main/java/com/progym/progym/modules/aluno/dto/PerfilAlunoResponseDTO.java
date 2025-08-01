@@ -1,7 +1,9 @@
 package com.progym.progym.modules.aluno.dto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.progym.progym.Objetivos;
 import com.progym.progym.UsuarioRole;
 
 import lombok.AllArgsConstructor;
@@ -24,4 +26,7 @@ public class PerfilAlunoResponseDTO {
     private Double peso;
     private Integer idade;
     private UsuarioRole role;
+    private String observacoes;
+    private Objetivos objetivo;
+    private LocalDateTime dataCadastro;
 }

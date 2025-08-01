@@ -48,6 +48,8 @@ public class CreateAluno {
             throw new IncorrectDoubleException();
         }
         
+        alunoEntity.setObjetivo(dto.getObjetivo());
+        alunoEntity.setObservacoes(dto.getObservacoes());
         alunoEntity.setIdade(dto.getIdade());
         alunoEntity.setRole(UsuarioRole.ALUNO);
         
